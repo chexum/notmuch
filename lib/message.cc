@@ -939,6 +939,26 @@ notmuch_message_get_date (notmuch_message_t *message)
     return Xapian::sortable_unserialise (value);
 }
 
+time_t
+notmuch_message_get_last_mod (notmuch_message_t *message)
+{
+    std::string value;
+
+    try {
+	value = message->doc.get_value (NOTMUCH_VALUE_LAST_MOD);
+    } catch (Xapian::Error &error) {
+	_notmuch_database_log(_notmuch_message_database (message), "A Xapian exception occurred when reading last modification: %s\n",
+		 error.get_msg().c_str());
+	message->notmuch->exception_reported = TRUE;
+	return 0;
+    }
+
+    if (value.empty ())
+	/* sortable_unserialise is undefined on empty string */
+	return -1;
+    return Xapian::sortable_unserialise (value);
+}
+
 notmuch_tags_t *
 notmuch_message_get_tags (notmuch_message_t *message)
 {

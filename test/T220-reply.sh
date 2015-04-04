@@ -216,7 +216,7 @@ On Tue, 05 Jan 2010 15:43:56 -0000, ☃ <snowman@example.com> wrote:
 > Encoding"
 
 test_begin_subtest "Reply with RFC 2047-encoded headers (JSON)"
-output=$(notmuch reply --format=json id:${gen_msg_id})
+output=$(notmuch reply --format=json --format-version=2 id:${gen_msg_id})
 test_expect_equal_json "$output" '
 {
     "original": {

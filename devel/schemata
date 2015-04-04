@@ -71,6 +71,8 @@ message = {
     match:          bool,
     filename:	    string,
     timestamp:      unix_time, # date header as unix time
+    lastmod:	    int,       # database revision when message
+			       # was update
     date_relative:  string,   # user-friendly timestamp
     tags:           [string*],
 

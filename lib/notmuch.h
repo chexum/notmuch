@@ -1348,6 +1348,14 @@ time_t
 notmuch_message_get_date  (notmuch_message_t *message);
 
 /**
+ * Get the last database modifaction revision of 'message' as an
+ * integer.
+ *
+ */
+long int
+notmuch_message_get_last_mod  (notmuch_message_t *message);
+
+/**
  * Get the value of the specified header from 'message' as a UTF-8 string.
  *
  * Common headers are stored in the database when the message is

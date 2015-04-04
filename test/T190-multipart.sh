@@ -343,7 +343,7 @@ test_expect_success \
     "notmuch show --format=text --part=8 'id:87liy5ap00.fsf@yoom.home.cworth.org'"
 
 test_begin_subtest "--format=json --part=0, full message"
-notmuch show --format=json --part=0 'id:87liy5ap00.fsf@yoom.home.cworth.org' >OUTPUT
+notmuch show --format=json --format-version=2 --part=0 'id:87liy5ap00.fsf@yoom.home.cworth.org' >OUTPUT
 cat <<EOF >EXPECTED
 {"id": "87liy5ap00.fsf@yoom.home.cworth.org", "match": true, "excluded": false, "filename": "${MAIL_DIR}/multipart", "timestamp": 978709437, "date_relative": "2001-01-05", "tags": ["attachment","inbox","signed","unread"], "headers": {"Subject": "Multipart message", "From": "Carl Worth <cworth@cworth.org>", "To": "cworth@cworth.org", "Date": "Fri, 05 Jan 2001 15:43:57 +0000"}, "body": [
 {"id": 1, "content-type": "multipart/signed", "content": [
@@ -449,7 +449,7 @@ notmuch show --format=raw 'id:87liy5ap00.fsf@yoom.home.cworth.org' >OUTPUT
 test_expect_equal_file OUTPUT "${MAIL_DIR}"/multipart
 
 test_begin_subtest "--format=raw --part=0, full message"
-notmuch show --format=raw --part=0 'id:87liy5ap00.fsf@yoom.home.cworth.org' >OUTPUT
+NOTMUCH_SHOW --format=raw --part=0 'id:87liy5ap00.fsf@yoom.home.cworth.org' >OUTPUT
 test_expect_equal_file OUTPUT "${MAIL_DIR}"/multipart
 
 test_begin_subtest "--format=raw --part=1, message body"
@@ -617,7 +617,7 @@ EOF
 test_expect_equal_file OUTPUT EXPECTED
 
 test_begin_subtest "'notmuch reply' to a multipart message with json format"
-notmuch reply --format=json 'id:87liy5ap00.fsf@yoom.home.cworth.org' | notmuch_json_show_sanitize >OUTPUT
+notmuch reply --format=json --format-version=2 'id:87liy5ap00.fsf@yoom.home.cworth.org' | notmuch_json_show_sanitize >OUTPUT
 notmuch_json_show_sanitize <<EOF >EXPECTED
 {"reply-headers": {"Subject": "Re: Multipart message",
  "From": "Notmuch Test Suite <test_suite@notmuchmail.org>",

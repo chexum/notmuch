@@ -121,6 +121,7 @@ format_message_sprinter (sprinter_t *sp, notmuch_message_t *message)
     void *local = talloc_new (NULL);
     notmuch_tags_t *tags;
     time_t date;
+    long int revision;
     const char *relative_date;
 
     sp->map_key (sp, "id");
@@ -138,6 +139,12 @@ format_message_sprinter (sprinter_t *sp, notmuch_message_t *message)
     sp->map_key (sp, "timestamp");
     date = notmuch_message_get_date (message);
     sp->integer (sp, date);
+
+    if (notmuch_format_version >= 3) {
+	sp->map_key (sp, "lastmod");
+	revision = notmuch_message_get_last_mod (message);
+	sp->integer (sp, revision);
+    }
 
     sp->map_key (sp, "date_relative");
     relative_date = notmuch_time_relative_date (local, date);

@@ -29,7 +29,7 @@ thread:XXX   2001-01-05 [1/1] (null);  (inbox unread)
 thread:XXX   1970-01-01 [1/1] Notmuch Test Suite;  (inbox unread)"
 
 test_begin_subtest "Search: json"
-output=$(notmuch search --format=json '*' | notmuch_search_sanitize)
+output=$(NOTMUCH_SEARCH --format=json '*' | notmuch_search_sanitize)
 test_expect_equal_json "$output" '
 [
     {

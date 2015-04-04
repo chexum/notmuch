@@ -144,19 +144,19 @@ notmuch search schema
 ---------------------
 
 # --output=summary
-search_summary = [thread_summary*]
+search_summary = [database_metadata, thread_summary*]
 
 # --output=threads
-search_threads = [threadid*]
+search_threads = [database_metadata, threadid*]
 
 # --output=messages
-search_messages = [messageid*]
+search_messages = [database_metadata, messageid*]
 
 # --output=files
-search_files = [string*]
+search_files = [database_metadata, string*]
 
 # --output=tags
-search_tags = [string*]
+search_tags = [database_metadata, string*]
 
 thread_summary = {
     database:       database_metadata

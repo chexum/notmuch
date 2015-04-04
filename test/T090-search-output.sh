@@ -35,7 +35,7 @@ EOF
 test_expect_equal_file OUTPUT EXPECTED
 
 test_begin_subtest "--output=threads --format=json"
-notmuch search --format=json --output=threads '*' | sed -e s/\".*\"/\"THREADID\"/ >OUTPUT
+NOTMUCH_SEARCH --format=json --output=threads '*' | sed -e s/\".*\"/\"THREADID\"/ >OUTPUT
 cat <<EOF >EXPECTED
 ["THREADID",
 "THREADID",
@@ -141,7 +141,7 @@ EOF
 test_expect_equal_file OUTPUT EXPECTED
 
 test_begin_subtest "--output=messages --format=json"
-notmuch search --format=json --output=messages '*' >OUTPUT
+NOTMUCH_SEARCH --format=json --output=messages '*' >OUTPUT
 cat <<EOF >EXPECTED
 ["4EFC743A.3060609@april.org",
 "877h1wv7mg.fsf@inf-8657.int-evry.fr",
@@ -199,19 +199,19 @@ EOF
 test_expect_equal_file OUTPUT EXPECTED
 
 test_begin_subtest "--output=messages --format=json --duplicate=1"
-notmuch search --output=messages --format=json --duplicate=1 '*' >OUTPUT
+NOTMUCH_SEARCH --output=messages --format=json --duplicate=1 '*' >OUTPUT
 # reuse same EXPECTED as above
 test_expect_equal_file OUTPUT EXPECTED
 
 test_begin_subtest "--output=messages --format=json --duplicate=2"
-notmuch search --output=messages --format=json --duplicate=2 '*' >OUTPUT
+NOTMUCH_SEARCH --output=messages --format=json --duplicate=2 '*' >OUTPUT
 cat <<EOF >EXPECTED
 ["20091117232137.GA7669@griffis1.net"]
 EOF
 test_expect_equal_file OUTPUT EXPECTED
 
 test_begin_subtest "--output=messages --format=json --duplicate=3"
-notmuch search --output=messages --format=json --duplicate=3 '*' >OUTPUT
+NOTMUCH_SEARCH --output=messages --format=json --duplicate=3 '*' >OUTPUT
 cat <<EOF >EXPECTED
 []
 EOF
@@ -338,7 +338,7 @@ EOF
 test_expect_equal_file OUTPUT EXPECTED
 
 test_begin_subtest "--output=files --format=json"
-notmuch search --format=json --output=files '*' | notmuch_search_files_sanitize \
+NOTMUCH_SEARCH --format=json --output=files '*' | notmuch_search_files_sanitize \
     | test_sort_json >OUTPUT
 cat <<EOF | test_sort_json >EXPECTED
 ["MAIL_DIR/cur/52:2,",
@@ -398,14 +398,14 @@ EOF
 test_expect_equal_file OUTPUT EXPECTED
 
 test_begin_subtest "--output=files --format=json --duplicate=2"
-notmuch search --format=json --output=files --duplicate=2 '*' | notmuch_search_files_sanitize >OUTPUT
+NOTMUCH_SEARCH --format=json --output=files --duplicate=2 '*' | notmuch_search_files_sanitize >OUTPUT
 cat <<EOF >EXPECTED
 ["$dup2"]
 EOF
 test_expect_equal_file OUTPUT EXPECTED
 
 test_begin_subtest "--output=tags"
-notmuch search --output=tags '*' >OUTPUT
+NOTMUCH_SEARCH --output=tags '*' >OUTPUT
 cat <<EOF >EXPECTED
 attachment
 inbox
@@ -415,7 +415,7 @@ EOF
 test_expect_equal_file OUTPUT EXPECTED
 
 test_begin_subtest "--output=tags --format=json"
-notmuch search --format=json --output=tags '*' >OUTPUT
+NOTMUCH_SEARCH --format=json --output=tags '*' >OUTPUT
 cat <<EOF >EXPECTED
 ["attachment",
 "inbox",
@@ -439,7 +439,7 @@ echo -n >EXPECTED
 test_expect_equal_file OUTPUT EXPECTED
 
 test_begin_subtest "search --format=json for non-existent message prints proper empty json"
-notmuch search --format=json "no-message-matches-this" > OUTPUT
+NOTMUCH_SEARCH --format=json "no-message-matches-this" > OUTPUT
 echo "[]" >EXPECTED
 test_expect_equal_file OUTPUT EXPECTED
 

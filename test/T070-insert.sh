@@ -64,7 +64,7 @@ output=$(notmuch search --output=files "subject:insert-subject" | wc -l)
 test_expect_equal "$output" 2
 
 test_begin_subtest "Duplicate message does not change tags"
-output=$(notmuch search --format=json --output=tags "subject:insert-subject")
+output=$(NOTMUCH_SEARCH --format=json --output=tags "subject:insert-subject")
 test_expect_equal_json "$output" '["inbox", "unread"]'
 
 test_begin_subtest "Insert message, add tag"

@@ -665,9 +665,17 @@ test_emacs_expect_t () {
 	fi
 }
 
+NOTMUCH_ADDRESS () {
+    notmuch address --format-version=2 "${@}"
+}
+
 NOTMUCH_NEW ()
 {
     notmuch new "${@}" | grep -v -E -e '^Processed [0-9]*( total)? file|Found [0-9]* total file'
+}
+
+NOTMUCH_SEARCH () {
+    notmuch search --format-version=2 "${@}"
 }
 
 NOTMUCH_SHOW () {

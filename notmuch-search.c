@@ -122,7 +122,8 @@ do_search_threads (search_context_t *ctx)
     if (threads == NULL)
 	return 1;
 
-    format->begin_list (format);
+    sprinter_start_output (format, ctx->query,
+			   (ctx->output == OUTPUT_THREADS) ? "threads" : "summary");
 
     for (i = 0;
 	 notmuch_threads_valid (threads) && (ctx->limit < 0 || i < ctx->offset + ctx->limit);
@@ -238,8 +239,7 @@ do_search_threads (search_context_t *ctx)
 	notmuch_thread_destroy (thread);
     }
 
-    format->end (format);
-
+    sprinter_finish_output (format);
     return 0;
 }
 
@@ -423,7 +423,7 @@ do_search_messages (search_context_t *ctx)
     if (messages == NULL)
 	return 1;
 
-    format->begin_list (format);
+    sprinter_start_output (format, ctx->query, "messages");
 
     for (i = 0;
 	 notmuch_messages_valid (messages) && (ctx->limit < 0 || i < ctx->offset + ctx->limit);
@@ -486,8 +486,7 @@ do_search_messages (search_context_t *ctx)
 
     notmuch_messages_destroy (messages);
 
-    format->end (format);
-
+    sprinter_finish_output (format);
     return 0;
 }
 
@@ -505,6 +504,8 @@ do_search_tags (const search_context_t *ctx)
      * specified? */
 
     /* Special-case query of "*" for better performance. */
+
+
     if (strcmp (notmuch_query_get_query_string (query), "*") == 0) {
 	tags = notmuch_database_get_all_tags (notmuch);
     } else {
@@ -517,7 +518,7 @@ do_search_tags (const search_context_t *ctx)
     if (tags == NULL)
 	return 1;
 
-    format->begin_list (format);
+    sprinter_start_output (format, query, "tags");
 
     for (;
 	 notmuch_tags_valid (tags);
@@ -535,8 +536,7 @@ do_search_tags (const search_context_t *ctx)
     if (messages)
 	notmuch_messages_destroy (messages);
 
-    format->end (format);
-
+    sprinter_finish_output (format);
     return 0;
 }
 

@@ -147,6 +147,7 @@ search_files = [string*]
 search_tags = [string*]
 
 thread_summary = {
+    database:       database_metadata
     thread:         threadid,
     timestamp:      unix_time,
     date_relative:  string,   # user-friendly timestamp

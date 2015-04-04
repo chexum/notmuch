@@ -91,4 +91,11 @@ sprinter_json_create (const void *ctx, FILE *stream);
 struct sprinter *
 sprinter_sexp_create (const void *ctx, FILE *stream);
 
+notmuch_status_t
+sprinter_start_output (struct sprinter *sp,
+		       const notmuch_query_t *query,
+		       const char *query_type);
+
+notmuch_status_t
+sprinter_finish_output (struct sprinter *sp);
 #endif // NOTMUCH_SPRINTER_H

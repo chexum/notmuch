@@ -175,6 +175,7 @@ sprinter_json_create (const void *ctx, FILE *stream)
 {
     static const struct sprinter_json template = {
 	.vtable = {
+	    .type = NOTMUCH_SPRINTER_JSON,
 	    .begin_map = json_begin_map,
 	    .begin_list = json_begin_list,
 	    .end = json_end,

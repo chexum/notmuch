@@ -210,6 +210,7 @@ sprinter_sexp_create (const void *ctx, FILE *stream)
 {
     static const struct sprinter_sexp template = {
 	.vtable = {
+	    .type = NOTMUCH_SPRINTER_SEXP,
 	    .begin_map = sexp_begin_map,
 	    .begin_list = sexp_begin_list,
 	    .end = sexp_end,

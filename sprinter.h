@@ -4,11 +4,21 @@
 /* Necessary for notmuch_bool_t */
 #include "notmuch-client.h"
 
+enum notmuch_sprinter_type {
+    NOTMUCH_SPRINTER_JSON,
+    NOTMUCH_SPRINTER_SEXP,
+    NOTMUCH_SPRINTER_TEXT
+};
+
 /* Structure printer interface. This is used to create output
  * structured as maps (with key/value pairs), lists and primitives
  * (strings, integers and booleans).
  */
 typedef struct sprinter {
+    /* Identify the type of sprinter
+     */
+    enum notmuch_sprinter_type type;
+
     /* Start a new map/dictionary structure. This should be followed by
      * a sequence of alternating calls to map_key and one of the
      * value-printing functions until the map is ended by end.

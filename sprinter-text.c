@@ -117,6 +117,7 @@ sprinter_text_create (const void *ctx, FILE *stream)
 {
     static const struct sprinter_text template = {
 	.vtable = {
+	    .type = NOTMUCH_SPRINTER_TEXT,
 	    .begin_map = text_begin_map,
 	    .begin_list = text_begin_list,
 	    .end = text_end,

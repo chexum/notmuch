@@ -744,11 +744,11 @@ cat <<EOF >> EXPECTED.withhtml
 EOF
 
 test_begin_subtest "html parts excluded by default"
-notmuch show --format=json id:htmlmessage > OUTPUT
+NOTMUCH_SHOW --format=json id:htmlmessage > OUTPUT
 test_expect_equal_json "$(cat OUTPUT)" "$(cat EXPECTED.nohtml)"
 
 test_begin_subtest "html parts included"
-notmuch show --format=json --include-html id:htmlmessage > OUTPUT
+NOTMUCH_SHOW --format=json --include-html id:htmlmessage > OUTPUT
 test_expect_equal_json "$(cat OUTPUT)" "$(cat EXPECTED.withhtml)"
 
 test_begin_subtest "indexes mime-type #1"

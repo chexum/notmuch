@@ -656,7 +656,7 @@ notmuch_query_count_threads (notmuch_query_t *query)
 }
 
 notmuch_database_t *
-notmuch_query_get_database (notmuch_query_t *query)
+notmuch_query_get_database (const notmuch_query_t *query)
 {
     return query->notmuch;
 }

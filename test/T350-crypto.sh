@@ -35,7 +35,7 @@ test_expect_success 'emacs delivery of signed message' \
     "(mml-secure-message-sign)"'
 
 test_begin_subtest "signature verification"
-output=$(notmuch show --format=json --verify subject:"test signed message 001" \
+output=$(NOTMUCH_SHOW --format=json --verify subject:"test signed message 001" \
     | notmuch_json_show_sanitize \
     | sed -e 's|"created": [1234567890]*|"created": 946728000|')
 expected='[[[{"id": "XXXXX",
@@ -69,7 +69,7 @@ test_begin_subtest "signature verification with full owner trust"
 # give the key full owner trust
 echo "${FINGERPRINT}:6:" | gpg --no-tty --import-ownertrust >>"$GNUPGHOME"/trust.log 2>&1
 gpg --no-tty --check-trustdb >>"$GNUPGHOME"/trust.log 2>&1
-output=$(notmuch show --format=json --verify subject:"test signed message 001" \
+output=$(NOTMUCH_SHOW --format=json --verify subject:"test signed message 001" \
     | notmuch_json_show_sanitize \
     | sed -e 's|"created": [1234567890]*|"created": 946728000|')
 expected='[[[{"id": "XXXXX",
@@ -103,7 +103,7 @@ test_expect_equal_json \
 test_begin_subtest "signature verification with signer key unavailable"
 # move the gnupghome temporarily out of the way
 mv "${GNUPGHOME}"{,.bak}
-output=$(notmuch show --format=json --verify subject:"test signed message 001" \
+output=$(NOTMUCH_SHOW --format=json --verify subject:"test signed message 001" \
     | notmuch_json_show_sanitize \
     | sed -e 's|"created": [1234567890]*|"created": 946728000|')
 expected='[[[{"id": "XXXXX",
@@ -177,7 +177,7 @@ test_expect_equal \
     "$expected"
 
 test_begin_subtest "decryption, --format=json"
-output=$(notmuch show --format=json --decrypt subject:"test encrypted message 001" \
+output=$(NOTMUCH_SHOW --format=json --decrypt subject:"test encrypted message 001" \
     | notmuch_json_show_sanitize \
     | sed -e 's|"created": [1234567890]*|"created": 946728000|')
 expected='[[[{"id": "XXXXX",
@@ -235,7 +235,7 @@ test_expect_equal_file OUTPUT TESTATTACHMENT
 test_begin_subtest "decryption failure with missing key"
 mv "${GNUPGHOME}"{,.bak}
 # The length of the encrypted attachment varies so must be normalized.
-output=$(notmuch show --format=json --decrypt subject:"test encrypted message 001" \
+output=$(NOTMUCH_SHOW --format=json --decrypt subject:"test encrypted message 001" \
     | notmuch_json_show_sanitize \
     | sed -e 's|"created": [1234567890]*|"created": 946728000|' \
     | sed -e 's|"content-length": 6[1234567890]*|"content-length": 652|')
@@ -272,7 +272,7 @@ test_expect_success 'emacs delivery of encrypted + signed message' \
     "(mml-secure-message-sign-encrypt)"'
 
 test_begin_subtest "decryption + signature verification"
-output=$(notmuch show --format=json --decrypt subject:"test encrypted message 002" \
+output=$(NOTMUCH_SHOW --format=json --decrypt subject:"test encrypted message 002" \
     | notmuch_json_show_sanitize \
     | sed -e 's|"created": [1234567890]*|"created": 946728000|')
 expected='[[[{"id": "XXXXX",
@@ -327,7 +327,7 @@ y
 " \
     | gpg --no-tty --quiet --command-fd 0 --armor --gen-revoke "0x${FINGERPRINT}!" 2>/dev/null \
     | gpg --no-tty --quiet --import
-output=$(notmuch show --format=json --verify subject:"test signed message 001" \
+output=$(NOTMUCH_SHOW --format=json --verify subject:"test signed message 001" \
     | notmuch_json_show_sanitize \
     | sed -e 's|"created": [1234567890]*|"created": 946728000|')
 expected='[[[{"id": "XXXXX",

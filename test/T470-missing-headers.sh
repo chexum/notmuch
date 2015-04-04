@@ -94,7 +94,7 @@ Body
 message}"
 
 test_begin_subtest "Show: json"
-output=$(notmuch show --format=json '*' | notmuch_json_show_sanitize)
+output=$(NOTMUCH_SHOW --format=json '*' | notmuch_json_show_sanitize)
 expected=$(notmuch_json_show_sanitize <<EOF
 [
     [

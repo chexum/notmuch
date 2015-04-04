@@ -139,7 +139,7 @@ chomp_newline (char *str)
  * this.  New (required) map fields can be added without increasing
  * this.
  */
-#define NOTMUCH_FORMAT_CUR 2
+#define NOTMUCH_FORMAT_CUR 3
 /* The minimum supported structured output format version.  Requests
  * for format versions below this will return an error. */
 #define NOTMUCH_FORMAT_MIN 1
@@ -148,7 +148,7 @@ chomp_newline (char *str)
  * Must be between NOTMUCH_FORMAT_MIN and NOTMUCH_FORMAT_CUR,
  * inclusive.
  */
-#define NOTMUCH_FORMAT_MIN_ACTIVE 1
+#define NOTMUCH_FORMAT_MIN_ACTIVE 2
 
 /* The output format version requested by the caller on the command
  * line.  If no format version is requested, this will be set to

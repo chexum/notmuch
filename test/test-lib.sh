@@ -670,6 +670,10 @@ NOTMUCH_NEW ()
     notmuch new "${@}" | grep -v -E -e '^Processed [0-9]*( total)? file|Found [0-9]* total file'
 }
 
+NOTMUCH_SHOW () {
+    notmuch show --format-version=2 "${@}"
+}
+
 notmuch_search_sanitize ()
 {
     perl -pe 's/("?thread"?: ?)("?)................("?)/\1\2XXX\3/'

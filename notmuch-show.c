@@ -1019,7 +1019,7 @@ do_show (void *ctx,
     if (! threads)
 	return 1;
 
-    sp->begin_list (sp);
+    sprinter_start_output (sp, query, "threads");
 
     for ( ;
 	 notmuch_threads_valid (threads);
@@ -1041,7 +1041,7 @@ do_show (void *ctx,
 
     }
 
-    sp->end (sp);
+    sprinter_finish_output (sp);
 
     return res != NOTMUCH_STATUS_SUCCESS;
 }

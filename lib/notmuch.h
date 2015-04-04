@@ -794,6 +794,12 @@ notmuch_sort_t
 notmuch_query_get_sort (notmuch_query_t *query);
 
 /**
+ * Return the associated notmuch database
+ */
+notmuch_database_t *
+notmuch_query_get_database (const notmuch_query_t *query);
+
+/**
  * Add a tag that will be excluded from the query results by default.
  * This exclusion will be overridden if this tag appears explicitly in
  * the query.

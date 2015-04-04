@@ -14,7 +14,7 @@ are interleaved. Keys are printed as keywords (symbols preceded by a
 colon), e.g. (:id "123" :time 54321 :from "foobar"). Null is printed as
 nil, true as t and false as nil.
 
-This is version 2 of the structured output format.
+This is version 3 of the structured output format.
 
 Version history
 ---------------
@@ -25,6 +25,9 @@ v1
 
 v2
 - Added the thread_summary.query field.
+
+v3
+- Initial dictionary of database metadata to notmuch show output
 
 Common non-terminals
 --------------------
@@ -38,12 +41,19 @@ threadid = string
 # Message ID, sans "id:"
 messageid = string
 
+database_metadata = {
+    query_type: string
+    uuid: string
+    lastmod: int
+}
+
 notmuch show schema
 -------------------
 
 # A top-level set of threads (do_show)
 # Returned by notmuch show without a --part argument
-thread_set = [thread*]
+
+thread_set = [database_metadata, thread*]
 
 # Top-level messages in a thread (show_messages)
 thread = [thread_node*]

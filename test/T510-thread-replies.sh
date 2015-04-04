@@ -17,7 +17,7 @@ add_message '[id]="foo@one.com"' \
 add_message '[in-reply-to]="mumble"' \
     '[references]="<foo@one.com>"' \
     '[subject]="Re: one"'
-output=$(notmuch show --format=json 'subject:one' | notmuch_json_show_sanitize)
+output=$(NOTMUCH_SHOW --format=json 'subject:one' | notmuch_json_show_sanitize)
 expected='[[[{"id": "foo@one.com",
  "match": true,
  "excluded": false,
@@ -51,7 +51,7 @@ add_message '[id]="foo@two.com"' \
 add_message '[in-reply-to]="<bar@baz.com>"' \
     '[references]="<foo@two.com>"' \
     '[subject]="Re: two"'
-output=$(notmuch show --format=json 'subject:two' | notmuch_json_show_sanitize)
+output=$(NOTMUCH_SHOW --format=json 'subject:two' | notmuch_json_show_sanitize)
 expected='[[[{"id": "foo@two.com",
  "match": true, "excluded": false,
  "filename": "YYYYY",
@@ -80,7 +80,7 @@ add_message '[id]="foo@three.com"' \
     '[subject]="three"'
 add_message '[in-reply-to]="<foo@three.com>"' \
     '[subject]="Re: three"'
-output=$(notmuch show --format=json 'subject:three' | notmuch_json_show_sanitize)
+output=$(NOTMUCH_SHOW --format=json 'subject:three' | notmuch_json_show_sanitize)
 expected='[[[{"id": "foo@three.com", "match": true, "excluded": false,
  "filename": "YYYYY",
  "timestamp": 978709437, "date_relative": "2001-01-05", "tags": ["inbox", "unread"],
@@ -109,7 +109,7 @@ add_message '[id]="bar@four.com"' \
 add_message '[in-reply-to]="<baz@four.com>"' \
     '[references]="<baz@four.com> <foo@four.com>"' \
     '[subject]="neither"'
-output=$(notmuch show --format=json 'subject:four' | notmuch_json_show_sanitize)
+output=$(NOTMUCH_SHOW --format=json 'subject:four' | notmuch_json_show_sanitize)
 expected='[[[{"id": "foo@four.com", "match": true, "excluded": false,
  "filename": "YYYYY",
  "timestamp": 978709437, "date_relative": "2001-01-05", "tags": ["inbox", "unread"],
@@ -143,7 +143,7 @@ add_message '[id]="foo@five.com"' \
 add_message '[id]="bar@five.com"' \
     '[references]="<foo@five.com> (garbage)"' \
     '[subject]="not-five"'
-output=$(notmuch show --format=json 'subject:five' | notmuch_json_show_sanitize)
+output=$(NOTMUCH_SHOW --format=json 'subject:five' | notmuch_json_show_sanitize)
 expected='[[[{"id": "XXXXX", "match": true, "excluded": false,
  "filename": "YYYYY", "timestamp": 42, "date_relative": "2001-01-05",
  "tags": ["inbox", "unread"], "headers": {"Subject": "five",

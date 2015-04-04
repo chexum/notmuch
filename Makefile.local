@@ -290,6 +290,7 @@ notmuch_client_srcs =		\
 	sprinter-json.c		\
 	sprinter-sexp.c		\
 	sprinter-text.c		\
+	sprinter-utils.c	\
 	query-string.c		\
 	mime-node.c		\
 	crypto.c		\

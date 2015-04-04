@@ -38,7 +38,7 @@ cur_msg_filename=$(notmuch search --output=files "subject:insert-subject")
 test_expect_equal_file "$cur_msg_filename" "$gen_msg_filename"
 
 test_begin_subtest "Insert message adds default tags"
-output=$(notmuch show --format=json "subject:insert-subject")
+output=$(NOTMUCH_SHOW --format=json "subject:insert-subject")
 expected='[[[{
  "id": "'"${gen_msg_id}"'",
  "match": true,

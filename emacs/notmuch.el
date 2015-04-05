@@ -795,12 +795,13 @@ non-authors is found, assume that all of the authors match."
 
 This is only called when a result is first inserted so it also
 sets the :orig-tag property."
-  (let ((new-result (plist-put result :orig-tags (plist-get result :tags)))
-	(pos (point-max)))
-    (notmuch-search-show-result new-result pos)
-    (when (string= (plist-get result :thread) notmuch-search-target-thread)
-      (setq notmuch-search-target-thread "found")
-      (goto-char pos))))
+  (unless (notmuch-query-metadata-p result)
+    (let ((new-result (plist-put result :orig-tags (plist-get result :tags)))
+	  (pos (point-max)))
+      (notmuch-search-show-result new-result pos)
+      (when (string= (plist-get result :thread) notmuch-search-target-thread)
+	(setq notmuch-search-target-thread "found")
+	(goto-char pos)))))
 
 (defun notmuch-search-process-filter (proc string)
   "Process and filter the output of \"notmuch search\""
@@ -939,7 +940,7 @@ the configured default sort order."
       (save-excursion
 	(let ((proc (notmuch-start-notmuch
 		     "notmuch-search" buffer #'notmuch-search-process-sentinel
-		     "search" "--format=sexp" "--format-version=2"
+		     "search" "--format=sexp" "--format-version=3"
 		     (if oldest-first
 			 "--sort=oldest-first"
 		       "--sort=newest-first")

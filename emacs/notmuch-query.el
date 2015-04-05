@@ -34,6 +34,11 @@ is a possibly empty forest of replies.
     (setq args (append args search-terms))
     (apply #'notmuch-call-notmuch-sexp args)))
 
+
+(defun notmuch-query-metadata-p (result)
+  "Determine if the result is a \"metadata\" object (format-version 3)"
+  (plist-get result :query_type))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Mapping functions across collections of messages.
 

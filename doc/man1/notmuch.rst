@@ -51,9 +51,15 @@ Supported global options for ``notmuch`` include
 	Specify the configuration file to use. This overrides any
 	configuration file specified by ${NOTMUCH\_CONFIG}.
 
+    ``--db-revision=UUID``
+       Enforce that the database revision is UUID. This is useful to
+       detect rollover in modification counts on messages. You can
+       find this UUID in the first column of output from
+       ``notmuch count --output=modifications``
+
 All global options except ``--config`` can also be specified after the
-command. For example, ``notmuch subcommand --version`` is equivalent to
-``notmuch --version subcommand``.
+command. For example, ``notmuch subcommand --db-revision`` is
+equivalent to ``notmuch --db-revision subcommand``.
 
 COMMANDS
 ========

@@ -46,4 +46,30 @@ notmuch tag +a-random-tag-8743632 '*'
 after=$(notmuch count --output=modifications '*' | cut -f2)
 result=$(($before < $after))
 test_expect_equal 1 ${result}
+
+notmuch count --output=modifications '*' | cut -f1 > UUID
+
+test_expect_success 'search succeeds with correct db revision' \
+		    "notmuch search --db-revision=$(cat UUID) '*'"
+
+test_expect_success 'db-revision works as global option ' \
+		    "notmuch --db-revision=$(cat UUID) search '*'"
+
+test_expect_code 1 'db-revision works as global option II' \
+		    "notmuch --db-revision=this-is-no-uuid search '*'"
+
+test_expect_code 1 'search fails with incorrect db revision' \
+		 "notmuch search --db-revision=this-is-no-uuid '*'"
+
+test_expect_success 'show succeeds with correct db revision' \
+		    "notmuch show --db-revision=$(cat UUID) '*'"
+
+test_expect_code 1 'show fails with incorrect db revision' \
+		 "notmuch show --db-revision=this-is-no-uuid '*'"
+
+test_expect_success 'tag succeeds with correct db revision' \
+		    "notmuch tag --db-revision=$(cat UUID) +test '*'"
+
+test_expect_code 1 'tag fails with incorrect db revision' \
+		 "notmuch show --db-revision=this-is-no-uuid '*' +test2"
 test_done

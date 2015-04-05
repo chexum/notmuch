@@ -46,6 +46,10 @@ notmuch_compact_command (notmuch_config_t *config, int argc, char *argv[])
     if (opt_index < 0)
 	return EXIT_FAILURE;
 
+    if (notmuch_requested_db_revision)
+	fprintf (stderr, "Warning: ignoring --db-revision=%s\n",
+		 notmuch_requested_db_revision);
+
     notmuch_process_shared_options (argv[0]);
 
     if (! quiet)

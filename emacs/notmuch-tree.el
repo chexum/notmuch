@@ -781,10 +781,11 @@ message together with all its descendents."
 
 (defun notmuch-tree-insert-forest-thread (forest-thread)
   "Insert a single complete thread."
-  (let (tree-status)
-    ;; Reset at the start of each main thread.
-    (setq notmuch-tree-previous-subject nil)
-    (notmuch-tree-insert-thread forest-thread 0 tree-status)))
+  (unless (notmuch-query-metadata-p forest-thread)
+    (let (tree-status)
+      ;; Reset at the start of each main thread.
+      (setq notmuch-tree-previous-subject nil)
+      (notmuch-tree-insert-thread forest-thread 0 tree-status))))
 
 (defun notmuch-tree-insert-forest (forest)
   "Insert a forest of threads.
@@ -879,7 +880,7 @@ the same as for the function notmuch-tree."
     (notmuch-tag-clear-cache)
     (let ((proc (notmuch-start-notmuch
 		 "notmuch-tree" (current-buffer) #'notmuch-tree-process-sentinel
-		 "show" "--body=false" "--format=sexp" "--format-version=2"
+		 "show" "--body=false" "--format=sexp" "--format-version=3"
 		 message-arg search-args))
 	  ;; Use a scratch buffer to accumulate partial output.
 	  ;; This buffer will be killed by the sentinel, which

@@ -25,6 +25,7 @@ enum {
     OUTPUT_THREADS,
     OUTPUT_MESSAGES,
     OUTPUT_FILES,
+    OUTPUT_LASTMOD,
 };
 
 /* The following is to allow future options to be added more easily */
@@ -71,6 +72,9 @@ print_count (notmuch_database_t *notmuch, const char *query_str,
 {
     notmuch_query_t *query;
     size_t i;
+    unsigned long revision;
+    const char *uuid;
+    int ret = 0;
 
     query = notmuch_query_create (notmuch, query_str);
     if (query == NULL) {
@@ -91,11 +95,22 @@ print_count (notmuch_database_t *notmuch, const char *query_str,
     case OUTPUT_FILES:
 	printf ("%u\n", count_files (query));
 	break;
+    case OUTPUT_LASTMOD:
+	if (strcmp (notmuch_query_get_query_string (query), "*") != 0) {
+	    fprintf (stderr, "Error: Only '*' is currently supported "
+		     " with output=modifications\n");
+	    ret = 1;
+	    goto DONE;
+	}
+
+	revision = notmuch_database_get_revision (notmuch, &uuid);
+	printf ("%s\t%lu\n", uuid, revision);
     }
 
+ DONE:
     notmuch_query_destroy (query);
 
-    return 0;
+    return ret;
 }
 
 static int
@@ -139,6 +154,7 @@ notmuch_count_command (notmuch_config_t *config, int argc, char *argv[])
 	  (notmuch_keyword_t []){ { "threads", OUTPUT_THREADS },
 				  { "messages", OUTPUT_MESSAGES },
 				  { "files", OUTPUT_FILES },
+				  { "modifications", OUTPUT_LASTMOD },
 				  { 0, 0 } } },
 	{ NOTMUCH_OPT_KEYWORD, &exclude, "exclude", 'x',
 	  (notmuch_keyword_t []){ { "true", EXCLUDE_TRUE },

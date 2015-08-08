@@ -1473,8 +1473,9 @@ notmuch_database_upgrade (notmuch_database_t *notmuch,
 		_notmuch_message_upgrade_folder (message);
 
 	    /* Prior to NOTMUCH_FEATURE_LAST_MOD, messages did not
-	     * track modification revisions.  Give all messages a
-	     * revision of 1.
+	     * track modification revisions.  Give all messages the
+	     * next available revision; since we just started tracking
+	     * revisions for this database, that will be 1.
 	     */
 	    if (new_features & NOTMUCH_FEATURE_LAST_MOD)
 		_notmuch_message_upgrade_last_mod (message);

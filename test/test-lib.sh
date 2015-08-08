@@ -735,7 +735,7 @@ notmuch_date_sanitize ()
 
 notmuch_uuid_sanitize ()
 {
-    sed  's/^[a-f0-9][a-f0-9-]*/UUID/'
+    sed 's/[0-9a-f]\{8\}-[0-9a-f]\{4\}-[0-9a-f]\{4\}-[0-9a-f]\{4\}-[0-9a-f]\{12\}/UUID/g'
 }
 # End of notmuch helper functions
 

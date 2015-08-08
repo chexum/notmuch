@@ -52,7 +52,8 @@ Supported global options for ``notmuch`` include
 	configuration file specified by ${NOTMUCH\_CONFIG}.
 
     ``--db-revision=UUID``
-       Enforce that the database revision is UUID. This is useful to
+       Enforce that the database revision is UUID;
+       exit with an error if it is not. This is useful to
        detect rollover in modification counts on messages. You can
        find this UUID in the first column of output from
        ``notmuch count --output=modifications``

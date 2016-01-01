@@ -1,3 +1,12 @@
+
+
+`notmuch insert` records the envelope addresses if available
+
+  If the caller provides this information as qmail-command(8) does in
+  the RPLINE and DTLINE environment variables, then notmuch insert will
+  record it in the maildir file.
+
+
 Notmuch 0.21 (2015-10-29)
 =========================
 

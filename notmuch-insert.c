@@ -284,6 +284,26 @@ copy_fd (int fdout, int fdin)
 }
 
 /*
+ * Write zero (and LF) terminated string to the output fd.  It's expected to
+ * come from getenv(), so it's not checked for correctness.  NULL or empty
+ * string is ignored, successfully.
+ * Return TRUE on success, FALSE on errors.
+ */
+static notmuch_bool_t
+write_header (int fdout, const char *hdr)
+{
+    ssize_t written,to_write;
+
+    if (hdr && (to_write = strlen (hdr))) {
+        written = write (fdout, hdr, to_write);
+	if (written != to_write)
+	    return FALSE;
+    }
+
+    return TRUE;
+}
+
+/*
  * Write fdin to a new temp file in maildir/tmp, return full path to
  * the file, or NULL on errors.
  */
@@ -296,6 +316,14 @@ maildir_write_tmp (const void *ctx, int fdin, const char *maildir)
     fdout = maildir_mktemp (ctx, maildir, &path);
     if (fdout < 0)
 	return NULL;
+
+    /* maildir(5) suggests the message should start with a Return-Path
+     * and Delivered-To lines.  qmail-local(8) supplies these.
+     */
+    if (! write_header(fdout, getenv("RPLINE")))
+	goto FAIL;
+    if (! write_header(fdout, getenv("DTLINE")))
+	goto FAIL;
 
     if (! copy_fd (fdout, fdin))
 	goto FAIL;

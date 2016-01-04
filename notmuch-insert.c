@@ -280,24 +280,40 @@ copy_fd (int fdout, int fdin)
 	} while (remain > 0);
     }
 
+    /* Technically, it can be reported as "empty" when the envelope
+     * headers were written.  However, it still means no data was
+     * coming in through the pipe, so it seems a better choice to keep
+     * it that way. */
+
     return (!interrupted && !empty);
 }
 
 /*
- * Write zero (and LF) terminated string to the output fd.  It's expected to
- * come from getenv(), so it's not checked for correctness.  NULL or empty
- * string is ignored, successfully.
+ * Write zero (and LF) terminated string to the output fd.  It's
+ * expected to come from getenv(), so it must pass basic sanity
+ * checks.  NULL or empty string is ignored, successfully.
+ * It's also not affecting the "empty"-ness of the file.
  * Return TRUE on success, FALSE on errors.
  */
 static notmuch_bool_t
 write_header (int fdout, const char *hdr)
 {
-    ssize_t written,to_write;
+    ssize_t remain;
+    char *p = hdr;
 
-    if (hdr && (to_write = strlen (hdr))) {
-        written = write (fdout, hdr, to_write);
-	if (written != to_write)
-	    return FALSE;
+    if (p && (remain = strlen (p))) {
+	do {
+	    ssize_t written = write (fdout, p, remain);
+	    if (written < 0 && errno == EINTR)
+		continue;
+	    if (written <= 0) {
+		fprintf (stderr, "Error: writing to temporary file: %s",
+			 strerror (errno));
+		return FALSE;
+	    }
+	    p += written;
+	    remain -= written;
+	} while (remain > 0);
     }
 
     return TRUE;

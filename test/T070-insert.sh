@@ -194,7 +194,7 @@ cat <<EOF > index-file-$code.gdb
 set breakpoint pending on
 break notmuch_database_add_message
 commands
-return NOTMUCH_STATUS_$code
+return (int)NOTMUCH_STATUS_$code
 continue
 end
 run
